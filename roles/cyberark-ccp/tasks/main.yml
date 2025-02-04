@@ -1,0 +1,23 @@
+- block:
+  - name: Retrieve Password from CyberArk
+    cyberark.pas.cyberark_credential:
+      api_base_url: "{{ ccp_base_url }}"
+      app_id: "{{ ccp_app_id }}"
+      query: "Safe={{ ccp_safe }};Object={{ ccp_platform_id }}-{{ inventory_hostname }}-{{ ccp_username }}"
+      validate_certs: "{{ ccp_validate_certs }}"
+    register: cyberark_key_response
+
+  - name: Debug CyberArk Response (Full)
+    ansible.builtin.debug:
+      var: cyberark_key_response
+
+  - name: Debug CyberArk Response (Content)
+    ansible.builtin.debug:
+      var: cyberark_key_response.result.Content
+
+  - name: Set Password to Fact
+    ansible.builtin.set_fact:
+      ansible_password: "{{ cyberark_key_response.result.Content }}"
+
+  delegate_to: localhost
+  no_log: yes

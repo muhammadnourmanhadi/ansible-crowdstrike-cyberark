@@ -1,0 +1,6 @@
+ccp_base_url: https://10.199.199.32
+ccp_app_id: Ansible
+ccp_safe: Ubuntu
+ccp_validate_certs: yes
+ccp_platform_id: Operating System-UnixSSH
+ccp_username: root

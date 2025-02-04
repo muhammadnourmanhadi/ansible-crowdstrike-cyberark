@@ -1,0 +1,18 @@
+- name: Check if DigiCertHighAssuranceEVRootCA file exists
+  community.windows.win_certificate_info:
+    thumbprint: 5fb7ee0633e259dbad0c4c9ae6d38f1a61c7dc25
+    store_name: Root
+  register: DigiCertHighAssuranceEVRootCA
+- name: Copy DigiCertAssuredIDRootCA Certificates to target   
+  ansible.windows.win_copy:
+    src: templates/DigiCertHighAssuranceEVRootCA.crt
+    dest: C:\Windows\Temp
+  when: not DigiCertHighAssuranceEVRootCA.exists
+- name: Install DigiCertAssuredIDRootCA 
+  ansible.windows.win_certificate_store:
+    path: C:\Windows\Temp\DigiCertHighAssuranceEVRootCA.crt 
+    state: present
+    key_storage: machine
+    file_type: pem
+    store_name: Root
+  when: not DigiCertHighAssuranceEVRootCA.exists

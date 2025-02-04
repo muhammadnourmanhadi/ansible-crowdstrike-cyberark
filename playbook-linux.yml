@@ -1,0 +1,28 @@
+---
+- name: Ansible integrate with Cyberark CCP
+  hosts: all
+  gather_facts: no
+  roles:
+    - { role: "roles/cyberark-ccp" }
+
+- name: Run Install Falcon Sensor for Linux
+  hosts: all
+  gather_facts: yes
+  roles:
+    - role: crowdstrike.falcon.falcon_install
+      vars:
+        falcon_install_method: "api"
+        falcon_cloud: "us-2"
+        falcon_client_id: "CHANGEME"
+        falcon_client_secret: "CHANGEME"
+        falcon_sensor_version_decrement: 1
+        falcon_api_enable_no_log: no
+
+- name: Run Configure Falcon Sensor for Linux
+  hosts: all
+  gather_facts: yes
+  roles:
+    - role: crowdstrike.falcon.falcon_configure
+      vars:
+        falcon_cid: "CHANGEME"
+        falcon_provisioning_token: "CHANGEME"

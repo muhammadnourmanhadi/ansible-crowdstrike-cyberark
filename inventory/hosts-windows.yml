@@ -1,0 +1,13 @@
+---
+windows:
+  hosts:
+    10.199.199.104:
+      ansible_host: 10.199.199.104
+    10.199.199.105:
+      ansible_host: 10.199.199.105
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_transport: ntlm
+    ansible_port: 5986
+    ansible_winrm_server_cert_validation: ignore
+    ansible_user: administrator

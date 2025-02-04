@@ -1,0 +1,6 @@
+---
+collections:
+  - name: ansible.windows
+  - name: community.windows
+  - name: cyberark.pas
+  - name: crowdstrike.falcon

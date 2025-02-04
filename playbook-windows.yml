@@ -1,0 +1,41 @@
+---
+- name: Ansible integrate with Cyberark CCP
+  hosts: all
+  gather_facts: no
+  roles:
+    - role: "roles/cyberark-ccp"
+      vars:
+        ccp_base_url: "https://10.199.199.32"
+        ccp_app_id: "Ansible"
+        ccp_safe: "winlab"
+        ccp_validate_certs: no
+        ccp_platform_id: "Operating System-WinServerLocal"
+        ccp_username: "administrator"
+
+- name: Verify requirement DigiCertAssuredIDRootCA
+  hosts: all
+  gather_facts: yes
+  roles:
+    - { role: "roles/digicertassured-win" }
+
+- name: Verify requirement DigiCertHighAssuranceEVRootCA
+  hosts: all
+  gather_facts: yes
+  roles:
+    - { role: "roles/digicerthighassurance-win" }
+
+- name: Run Install Falcon Sensor for Windows
+  hosts: all
+  gather_facts: yes
+  roles:
+  - role: crowdstrike.falcon.falcon_install
+    vars:
+      falcon_install_method: "api"
+      falcon_client_id: "CHANGEME"
+      falcon_client_secret: "CHANGEME"
+      falcon_cid: "CHANGEME"
+      falcon_cloud: "us-2"
+      falcon_sensor_version_decrement: 1
+      falcon_windows_install_args: "/norestart ProvWaitTime=600 ProvToken=CHANGEME"
+      falcon_windows_install_retries: 1
+      falcon_api_enable_no_log: no
